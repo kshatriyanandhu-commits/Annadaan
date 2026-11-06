@@ -2,6 +2,7 @@
 
 [![MERN Stack](https://img.shields.io/badge/Stack-MongoDB%20%7C%20Express%20%7C%20React%20%7C%20Node-emerald)](https://github.com/)
 [![Interactive 3D UI](https://img.shields.io/badge/3D%20UI-HTML5%20Canvas%20%7C%203D%20Tilt-teal)](https://github.com/)
+[![Presentation](https://img.shields.io/badge/Slide%20Deck-10%20Slides%20PPTX-orange)](./Annadaan_Project_Presentation.pptx)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 
 **Annadaan** is a full-stack, production-ready MERN platform that bridges the gap between commercial surplus food generators (banquet halls, caterers, restaurants, and households) and verified local NGOs, shelters, and community kitchens in real time.

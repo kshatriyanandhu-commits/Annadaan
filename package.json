@@ -1,0 +1,23 @@
+{
+  "name": "annadaan",
+  "version": "1.0.0",
+  "description": "Annadaan - Smart Waste Food Management & Donation Platform",
+  "scripts": {
+    "dev:backend": "npm run dev --prefix food-waste-platform/backend",
+    "dev:frontend": "npm run dev --prefix food-waste-platform/frontend",
+    "build:frontend": "npm run build --prefix food-waste-platform/frontend",
+    "test:backend": "node food-waste-platform/backend/test-suite.js",
+    "seed": "npm run seed --prefix food-waste-platform/backend"
+  },
+  "keywords": [
+    "food-waste",
+    "donation-platform",
+    "mern",
+    "react",
+    "node",
+    "express",
+    "mongodb"
+  ],
+  "author": "kshatriyanandhu",
+  "license": "ISC"
+}

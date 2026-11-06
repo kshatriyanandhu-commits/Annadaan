@@ -182,5 +182,20 @@ node test-suite.js
 
 ---
 
+## ☁️ Deployment on Render
+
+Annadaan is pre-configured for 1-click deployment on [Render](https://render.com) using [`render.yaml`](./render.yaml).
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/kshatriyanandhu-commits/Annadaan)
+
+### 1-Click Blueprint Deployment:
+1. In the [Render Dashboard](https://dashboard.render.com), click **New +** -> **Blueprint**.
+2. Connect your repository: `https://github.com/kshatriyanandhu-commits/Annadaan`.
+3. Render automatically provisions the `annadaan-api` Web Service and `annadaan-web` Static Site!
+
+For complete step-by-step instructions (including single free-tier Web Service setup), see the detailed [Render Deployment Guide](./RENDER_DEPLOYMENT.md).
+
+---
+
 ## 📜 License
 This project is licensed under the ISC License.

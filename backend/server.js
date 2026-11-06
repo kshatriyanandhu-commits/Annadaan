@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
+const fs = require('fs');
 const connectDB = require('./config/db');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
@@ -28,7 +30,11 @@ app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
+      if (
+        allowedOrigins.indexOf(origin) !== -1 ||
+        origin.endsWith('.onrender.com') ||
+        process.env.NODE_ENV !== 'production'
+      ) {
         return callback(null, true);
       } else {
         return callback(new Error('CORS policy: This origin is not allowed'));
@@ -38,17 +44,12 @@ app.use(
   })
 );
 
-// Base API Health Check
-app.get('/', (req, res) => {
+// Health Check Endpoint (Render & Monitoring)
+app.get('/api/health', (req, res) => {
   res.status(200).json({
-    status: 'online',
-    platform: 'Annadaan - Smart Waste Food Management & Donation Platform API',
-    version: '1.0.0',
-    documentation: {
-      auth: '/api/auth',
-      donations: '/api/donations',
-      stats: '/api/stats',
-    },
+    status: 'ok',
+    platform: 'Annadaan Backend API',
+    timestamp: new Date().toISOString(),
   });
 });
 
@@ -56,6 +57,53 @@ app.get('/', (req, res) => {
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/donations', require('./routes/donationRoutes'));
 app.use('/api/stats', require('./routes/statsRoutes'));
+
+// Serve Frontend in Production if built
+const frontendDist = path.join(__dirname, '../frontend/dist');
+if (fs.existsSync(frontendDist)) {
+  // Prevent express.static from automatically intercepting root / so API check can answer
+  app.use(express.static(frontendDist, { index: false }));
+
+  app.get('/', (req, res, next) => {
+    const isBrowserHtml = req.headers.accept && req.headers.accept.includes('text/html');
+    if (!isBrowserHtml) {
+      return res.status(200).json({
+        status: 'online',
+        platform: 'Annadaan - Smart Waste Food Management & Donation Platform API',
+        version: '1.0.0',
+        documentation: {
+          auth: '/api/auth',
+          donations: '/api/donations',
+          stats: '/api/stats',
+          health: '/api/health',
+        },
+      });
+    }
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+} else {
+  // Base API Health Check for standalone backend
+  app.get('/', (req, res) => {
+    res.status(200).json({
+      status: 'online',
+      platform: 'Annadaan - Smart Waste Food Management & Donation Platform API',
+      version: '1.0.0',
+      documentation: {
+        auth: '/api/auth',
+        donations: '/api/donations',
+        stats: '/api/stats',
+        health: '/api/health',
+      },
+    });
+  });
+}
 
 // Error Handlers
 app.use(notFound);
